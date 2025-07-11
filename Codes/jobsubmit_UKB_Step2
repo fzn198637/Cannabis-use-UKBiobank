@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -N 1 
+#SBATCH -n 1
+#SBATCH -c 1
+#SBATCH --mem=5g
+#SBATCH -p  qTRDGPU
+#SBATCH -t  2880
+#SBATCH -J  UKB_mat
+#SBATCH -e error_array/error%A-%a.err
+#SBATCH -o out_array/out%A-%a.out
+#SBATCH -A trends53c17
+#SBATCH --oversubscribe 
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=zfu@gsu.edu
+
+source /usr/share/lmod/lmod/init/bash
+module use /application/ubuntumodules/localmodules
+module load matlab/R2020b
+
+NODE=$(hostname)
+echo $HOSTNAME
+matlab -r 'Step2_UKB_match_index($SLURM_ARRAY_TASK_ID)' -nodisplay -singleCompThread

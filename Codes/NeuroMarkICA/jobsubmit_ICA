@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -N 1 
+#SBATCH -n 1
+#SBATCH -c 1
+#SBATCH --mem=20g
+#SBATCH -p  qTRDGPU
+#SBATCH -t  2880
+#SBATCH -J  ICA_UKB
+#SBATCH -e error/error%A-%a.err
+#SBATCH -o out/out%A-%a.out
+#SBATCH -A trends53c17
+#SBATCH --oversubscribe 
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=zfu@gsu.edu
+#SBATCH --exclude=arctrdagn002
+
+module load matlab/R2020b
+
+NODE=$(hostname)
+echo $HOSTNAME
+matlab -r 'Step2_ICA($SLURM_ARRAY_TASK_ID)' -nodisplay -singleCompThread

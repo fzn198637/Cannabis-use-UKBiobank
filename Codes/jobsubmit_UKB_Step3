@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH -N 1 
+#SBATCH -n 1
+#SBATCH -c 32
+#SBATCH --mem=200g
+#SBATCH -p  qTRDHM
+#SBATCH -t  2880
+#SBATCH -J  UKB_Step3
+#SBATCH -e error/error%A-%a.err
+#SBATCH -o out/out%A-%a.out
+#SBATCH -A trends53c17
+#SBATCH --oversubscribe 
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=zfu@gsu.edu
+
+sleep 10s
+
+source /usr/share/lmod/lmod/init/bash
+module use /application/ubuntumodules/localmodules
+module load matlab/R2020b
+
+matlab -batch Step3_UKB_sumarize_info
+
+sleep 10s
